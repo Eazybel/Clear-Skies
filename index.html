@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="weather-app">
+        <header>
+            <h1>Weather App</h1>
+            <form id="weather-form">
+                <input type="text" id="city-input" placeholder="Enter city name..." autocomplete="off" required>
+                <button id="btn" type="submit">Search</button>
+            </form>
+        </header>
+        <main id="weather-result" class="hidden">
+            <div class="weather-card">
+                <h2 id="city-name"></h2>
+                <div class="weather-info">
+                    <img id="weather-icon" alt="Weather Icon">
+                    <div>
+                        <p id="description"></p>
+                        <p><span id="temperature"></span>°C</p>
+                        <p>Humidity: <span id="humidity"></span>%</p>
+                        <p>Wind: <span id="wind"></span> km/h</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>Powered by OpenWeatherMap</p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
