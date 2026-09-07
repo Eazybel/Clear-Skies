@@ -1,6 +1,7 @@
 "use client"
 import {useState} from "react"
-import fetchWeather from "@/app/components/fetchWeather"
+import fetchWeather from "@/app/api/fetchWeather"
+import FetchGeo from "@/app/api/fetchGeo"
 import React from 'react'
 
 export default function Button(){
@@ -17,9 +18,7 @@ try{
 }
     return(
       <>
-      <select name="country" id="countryDropdown">
-        <option value="none" disabled>Select your Region</option>
-      </select>
+      {/* <input type="text" name="city" id="city" /> */}
         <button disabled={isLoading} onClick={fetchLoad}>{isLoading?"loading":"See Forcast"}</button>
       </>
     )
