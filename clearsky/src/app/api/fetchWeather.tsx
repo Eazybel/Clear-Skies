@@ -10,11 +10,8 @@ try{
     const dailyData:DailyDataInterface[]=[]
 const response=await fetch(`https://geocode.maps.co/search?q=${cityName}&api_key=6a9e864fde97d568213086chl07ce55`)
 const data=await response.json()
-
-return await fetch(`https://flood-api.open-meteo.com/v1/flood?latitude=${data[0].lat}&longitude=${data[0].lon}&daily=river_discharge,river_discharge_max,river_discharge_p25,river_discharge_p75,river_discharge_median`).then(res=>{
-    return res.json()
-}).then(dataGeo=>{
-
+const responseFlood=await fetch(`https://flood-api.open-meteo.com/v1/flood?latitude=${data[0].lat}&longitude=${data[0].lon}&daily=river_discharge,river_discharge_max,river_discharge_p25,river_discharge_p75,river_discharge_median`)
+const dataGeo=await responseFlood.json()
 for (let i = 0; i < 10; i++) {
 const day=dataGeo.daily.time[i]
 const max=dataGeo.daily.river_discharge_max[i]
@@ -39,9 +36,9 @@ if(max>pg75*2.0&&max>median*2.5){
 }
 
 return dailyData
-})
 }catch(error:unknown){
     console.log(error)
+    return []
 }
  
 }
