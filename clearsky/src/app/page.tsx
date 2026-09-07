@@ -13,8 +13,9 @@ export default function Button(){
             <input type="text" name="city" id="city" />
             
           <SubmitBtn />
-         {!pending&& <FloodStatus alerts={state}  />}
         </form>
+         {!pending&& <FloodStatus alerts={state}  />}
+         
      
             
           

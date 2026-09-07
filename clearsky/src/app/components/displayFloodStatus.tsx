@@ -11,8 +11,22 @@ export default function FloodStatus(props:alertData){
 
     return(
         <>
-        <div>Not Loading</div>
-        {console.log(props)}
+         
+        <div>
+
+            <ul>
+              { 
+            props.alerts&&
+            props.alerts.map((alert,index)=>{
+
+                return(
+
+                    <li key={index}>{alert.day} <p>{alert.riskLevel}</p> <p>{alert.message}</p></li>
+                )
+            })
+               }
+            </ul>
+        </div>
         </>
     )
 }

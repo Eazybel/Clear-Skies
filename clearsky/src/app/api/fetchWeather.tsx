@@ -10,8 +10,11 @@ try{
     const dailyData:DailyDataInterface[]=[]
 const response=await fetch(`https://geocode.maps.co/search?q=${cityName}&api_key=6a9e864fde97d568213086chl07ce55`)
 const data=await response.json()
+const responseCloud=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${data[0].lat}&${data[0].lon}&hourly=temperature_2m,rain&current=temperature_2m,rain`)
+const dataCloud=await responseCloud.json()
 const responseFlood=await fetch(`https://flood-api.open-meteo.com/v1/flood?latitude=${data[0].lat}&longitude=${data[0].lon}&daily=river_discharge,river_discharge_max,river_discharge_p25,river_discharge_p75,river_discharge_median`)
 const dataGeo=await responseFlood.json()
+console.log(dataCloud)
 for (let i = 0; i < 10; i++) {
 const day=dataGeo.daily.time[i]
 const max=dataGeo.daily.river_discharge_max[i]
