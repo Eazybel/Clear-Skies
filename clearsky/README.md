@@ -4,6 +4,8 @@
 
 SafeClouds is a real-time environmental monitoring and flood-prediction web application built with **Next.js 15**. It correlates live meteorological metrics with historical river discharge percentiles to deliver early flood warnings and actionable weather insights for any global location.
 
+🔗 **Live Platform:** [https://safeclouds.vercel.app](https://safeclouds.vercel.app)
+
 ## Key Features
 
 * **Real-Time Weather Telemetry:** Integrates with OpenWeatherMap to fetch live temperature and precipitation data, handling dynamic optional properties like zero-precipitation intervals safely.
@@ -34,4 +36,4 @@ Run the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to view the platform.
+Open [http://localhost:3000](http://localhost:3000) with your browser to view the platform locally, or visit the live deployment at [https://safeclouds.vercel.app](https://safeclouds.vercel.app).
