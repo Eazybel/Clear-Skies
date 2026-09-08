@@ -2,7 +2,7 @@
 
 import fetchWeather from "@/app/api/fetchWeather"
 import SubmitBtn from "@/app/components/submitbtn"
-import FloodStatus from "@/app/components/displayFloodStatus"
+import FloodStatus from "@/app/components/FloodDisplay/displayFloodStatus"
 import { useActionState } from "react"
 
 export default function Button() {
