@@ -16,9 +16,6 @@ const responseCloud=await fetch(`https://api.openweathermap.org/data/2.5/weather
 const dataCloud=await responseCloud.json()
 const responseFlood=await fetch(`https://flood-api.open-meteo.com/v1/flood?latitude=${data[0].lat}&longitude=${data[0].lon}&daily=river_discharge,river_discharge_max,river_discharge_p25,river_discharge_p75,river_discharge_median`)
 const dataGeo=await responseFlood.json()
-if(!response.ok||!responseFlood||!responseCloud){
-throw new Error("Server error")
-}
 for (let i = 0; i < 10; i++) {
 const day=dataGeo.daily.time[i]
 const max=dataGeo.daily.river_discharge_max[i]
@@ -43,10 +40,6 @@ if(max>pg75*2.0&&max>median*2.5){
   })
     
 }
-return (
-    <>
-    <div>theres data coming</div>
-    </>
-)
+return dailyData
 
 }
