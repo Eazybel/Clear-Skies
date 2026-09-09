@@ -1,9 +1,9 @@
 "use client"
-import SubmitButton from "@/app/components/SubmitButton"
 import {useActionState} from "react"
 import FormHandler from "@/app/api/FormData"
 export default function Main(){
-  const [state,formAction,isPending]=useActionState(FormHandler,null)
+  const [state,formAction,isPending]=useActionState(FormHandler,undefined)
+
   return(
     <>
     {/* Search Form Card */}
@@ -23,12 +23,20 @@ export default function Main(){
               />
             </div>
             
-          <SubmitButton isPending={isPending}/>
-          {
-           state&&<p>state.city</p>
-          }
+         <button disabled={isPending} type="submit" 
+      className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all text-sm shadow-lg shadow-blue-600/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      {isPending?"Loading":"Submit"}
+    </button>
           </form>
         </div>
+          {
+            state?.data?.message&&<p>{JSON.stringify(state.data.message)} error data</p>
+          }
+           {
+            state?.data?.coord&&<p>{JSON.stringify(state.data)} normal  data</p>
+          }
     </>
   )
+
 }
