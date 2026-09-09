@@ -1,8 +1,11 @@
 "use client"
-import {useActionState} from "react"
+import {useActionState,useEffect} from "react"
 import FormHandler from "@/app/api/FormData"
 export default function Main(){
   const [state,formAction,isPending]=useActionState(FormHandler,undefined)
+  useEffect(()=>{
+state&&console.log(state)
+  },[state])
 
   return(
     <>
@@ -30,12 +33,12 @@ export default function Main(){
     </button>
           </form>
         </div>
-          {/* {
+          {
             state?.dataFlood&&<p>{JSON.stringify(state.dataFlood)} error dataFlood</p>
-          } */}
-           {/* {
+          } 
+          {
             state?.dataFlood?.coord&&<p>{JSON.stringify(state.dataFlood)} normal  dataFlood</p>
-          } */}
+          } 
     </>
   )
 

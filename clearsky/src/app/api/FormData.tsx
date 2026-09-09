@@ -8,7 +8,6 @@ export default async function FormHandle(prevState:unknown,formData:FormData){
  const dataCity=await resCity.json()
  const resFlood= await fetch(`https://flood-api.open-meteo.com/v1/flood?latitude=${dataCity.coord.lat}&longitude=${dataCity.coord.lon}&daily=river_discharge,river_discharge_mean`)
  const dataFlood=await resFlood.json()
- console.log(dataFlood)
- return {dataFlood}
+ return {dataFlood,dataCity}
 
 }
