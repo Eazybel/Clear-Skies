@@ -1,9 +1,9 @@
 "use client"
 import SubmitButton from "@/app/components/SubmitButton"
-import {useActionState,useState} from "react"
+import {useActionState} from "react"
 import FormHandler from "@/app/api/FormData"
 export default function Main(){
-  const [data,formAction,isPending]=useActionState(FormHandler,null)
+  const [state,formAction,isPending]=useActionState(FormHandler,undefined)
   return(
     <>
     {/* Search Form Card */}
@@ -23,7 +23,7 @@ export default function Main(){
               />
             </div>
             
-           {isPending?<SubmitButton status="Loading"/>:<SubmitButton status="Submit"/>}
+          <SubmitButton state={state} isPending={isPending}/>
           </form>
         </div>
     </>
