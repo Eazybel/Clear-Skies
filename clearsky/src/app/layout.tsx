@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Header from "@/app/components/Header"
 import "./globals.css"; // Ensure this exists in your root layout
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,18 +14,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
            {/* Header Section */}
-        <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center justify-start p-6 sm:p-12">
+    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col items-center justify-start p-6 sm:p-12">
       <div className="w-full max-w-2xl space-y-6">
-        
-        {/* Header Section */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-white">Safe Clouds Flood & Weather Monitor</h1>
-          <p className="text-sm text-slate-400">Search any city to check live environmental risks and forecasts.</p>
-        </div>
-        
-      </div>
-    </div>
+        <Header>
+        </Header>
         {children}
+        </div>
+        </div>
+      
         </body>
     </html>
   );
