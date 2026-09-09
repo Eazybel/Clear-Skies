@@ -3,7 +3,7 @@ import SubmitButton from "@/app/components/SubmitButton"
 import {useActionState} from "react"
 import FormHandler from "@/app/api/FormData"
 export default function Main(){
-  const [state,formAction,isPending]=useActionState(FormHandler,undefined)
+  const [state,formAction,isPending]=useActionState(FormHandler,null)
   return(
     <>
     {/* Search Form Card */}
@@ -23,7 +23,10 @@ export default function Main(){
               />
             </div>
             
-          <SubmitButton state={state} isPending={isPending}/>
+          <SubmitButton isPending={isPending}/>
+          {
+           state&&<p>state.city</p>
+          }
           </form>
         </div>
     </>
