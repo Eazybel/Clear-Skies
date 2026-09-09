@@ -1,11 +1,14 @@
 "use client"
 import SubmitButton from "@/app/components/SubmitButton"
+import {useActionState} from "react"
+import FormHandler from "@/app/api/FormData"
 export default function Main(){
+  const [data,formAction,isPending]=useActionState(FormHandler,null)
   return(
     <>
     {/* Search Form Card */}
         <div className="bg-slate-800/60 backdrop-blur-md border border-slate-700/80 p-6 rounded-2xl shadow-xl">
-          <form className="flex flex-col sm:flex-row gap-3">
+          <form action={formAction} className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
                 🔍
