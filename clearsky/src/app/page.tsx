@@ -30,12 +30,12 @@ export default function Main(){
     </button>
           </form>
         </div>
-          {
-            state?.data?.message&&<p>{JSON.stringify(state.data.message)} error data</p>
-          }
-           {
-            state?.data?.coord&&<p>{JSON.stringify(state.data)} normal  data</p>
-          }
+          {/* {
+            state?.dataFlood&&<p>{JSON.stringify(state.dataFlood)} error dataFlood</p>
+          } */}
+           {/* {
+            state?.dataFlood?.coord&&<p>{JSON.stringify(state.dataFlood)} normal  dataFlood</p>
+          } */}
     </>
   )
 
