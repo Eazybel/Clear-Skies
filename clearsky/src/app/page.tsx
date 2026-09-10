@@ -65,7 +65,7 @@ return dailyData
     </button>
           </form>
         </div>
- <Result data={!state?.error?dailyDataMemo:state}/>
+ <Result data={!state?.error?dailyDataMemo:state.error}/>
     </>
   )
 

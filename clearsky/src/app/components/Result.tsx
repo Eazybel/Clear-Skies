@@ -1,11 +1,17 @@
 type dataProp={
-    data?:object
+    data?:object|string
 }
 export default function Result(props:dataProp){
-    console.log(props)
+if(typeof(props.data)=="string"){
+
     return (
         <>
-        <div>Result</div>
+      <p>Error occured type the city/country name correctly</p>
         </>
     )
+}else{
+    return(
+        <></>
+    )
+}
 }
