@@ -7,7 +7,10 @@ export default function Main(){
   type dailyDataType={
     message?:string,
     day?:string,
-    error?:string
+    error?:string,
+    icon?:string,
+    temp?:string,
+    desc?:string
   }
  const formRef=useRef(null)
   const dailyDataMemo=useMemo(()=>{
@@ -21,6 +24,9 @@ for (let i = 0; i < 30; i++) {
   const currentDischarge = state?.dataFlood?.daily.river_discharge[i];
   const meanDischarge = state?.dataFlood?.daily.river_discharge_mean[i];
   const day=state?.dataFlood?.daily.time[i]
+  const temp=state?.dataCity.main.temp
+  const icon=state?.dataCity.weather[0].icon
+  const desc=state?.dataCity.weather[0].description
 
   const ratio = currentDischarge / meanDischarge;
   let message="Normal: River flow remains close to its historical average with zero flood risk."
@@ -34,11 +40,11 @@ for (let i = 0; i < 30; i++) {
       } else if (ratio >= 1.5) {
         message = "Elevated: Water volume is noticeably higher than usual, warranting routine monitoring.";
       }
-dailyData.push({message:message,day:day})
+dailyData.push({message:message,day:day,temp:temp,icon:icon,desc:desc})
 }
 return dailyData
 },[state])
-
+console.log(state)
   return(
     <>
     {/* Search Form Card */}
