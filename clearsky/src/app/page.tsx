@@ -4,13 +4,18 @@ import FormHandler from "@/app/api/FormData"
 export default function Main(){
   const [state,formAction,isPending]=useActionState(FormHandler,undefined)
   type dailyDataType={
-    message:string,
-    day?:string
+    message?:string,
+    day?:string,
+    error?:string
   }
  const formRef=useRef(null)
   const dailyDataMemo=useMemo(()=>{
     const dailyData:dailyDataType[]=[]
     if (!state) return dailyData
+  if(state.error){
+    dailyData.push(state)
+    return dailyData
+  }
 for (let i = 0; i < 30; i++) {
   const currentDischarge = state?.dataFlood?.daily.river_discharge[i];
   const meanDischarge = state?.dataFlood?.daily.river_discharge_mean[i];
@@ -32,7 +37,6 @@ dailyData.push({message:message,day:day})
 }
 return dailyData
 },[state])
-console.log(dailyDataMemo)
 
   return(
     <>
@@ -60,13 +64,13 @@ console.log(dailyDataMemo)
     </button>
           </form>
         </div>
-        {/* {state?.error&&<p>{state?.error}</p>}
-          {dailyData&&<>
-          <ul>{dailyData?.map((data,index)=>{
-            return <><li key={index}>{data.message}</li></>
-             })
-             }</ul></>
-            } */}
+      {state?.error&&console.log(state)}
+      {!state?.error&&<ul>{
+          dailyDataMemo.map((data,index)=>{
+            return <li key={index}>{data?.message}</li>
+          })
+    
+        }</ul>}
     </>
   )
 
