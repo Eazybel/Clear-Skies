@@ -1,6 +1,7 @@
 "use client"
 import {useActionState,useMemo,useRef} from "react"
 import FormHandler from "@/app/api/FormData"
+import Result from "@/app/components/Result"
 export default function Main(){
   const [state,formAction,isPending]=useActionState(FormHandler,undefined)
   type dailyDataType={
@@ -64,13 +65,7 @@ return dailyData
     </button>
           </form>
         </div>
-      {state?.error&&console.log(state)}
-      {!state?.error&&<ul>{
-          dailyDataMemo.map((data,index)=>{
-            return <li key={index}>{data?.message}</li>
-          })
-    
-        }</ul>}
+ <Result data={!state?.error?dailyDataMemo:state}/>
     </>
   )
 
