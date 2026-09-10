@@ -16,7 +16,7 @@ if(resCity.ok){
 // }
 return {dataFlood,dataCity}
 }else if(!resCity.ok){
-    return{error:resCity.statusText}
+    return{error:"Something went wrong"}
 }
 
 
