@@ -1,33 +1,44 @@
 "use client"
-import {useActionState,useEffect,useState} from "react"
+import {useActionState,useMemo,useRef} from "react"
 import FormHandler from "@/app/api/FormData"
 export default function Main(){
   const [state,formAction,isPending]=useActionState(FormHandler,undefined)
   type dailyDataType={
     message:string,
-    day:string
+    day?:string
   }
+ const formRef=useRef(null)
+  const dailyDataMemo=useMemo(()=>{
     const dailyData:dailyDataType[]=[]
+    if (!state) return dailyData
 for (let i = 0; i < 30; i++) {
-  const currentDischarge = state?.dataFlood?.daily.river_discharge[0];
-  const meanDischarge = state?.dataFlood?.daily.river_discharge_mean[0];
-
-  if (!meanDischarge || meanDischarge === 0) dailyData.push({message:"Normal",day:state?.dataFlood?.daily.time[i]});;
+  const currentDischarge = state?.dataFlood?.daily.river_discharge[i];
+  const meanDischarge = state?.dataFlood?.daily.river_discharge_mean[i];
+  const day=state?.dataFlood?.daily.time[i]
 
   const ratio = currentDischarge / meanDischarge;
+  let message="Normal: River flow remains close to its historical average with zero flood risk."
+  if (!meanDischarge || meanDischarge === 0) {
+   message="Normal: River flow remains close to its historical average with zero flood risk."
 
-  if (ratio >= 4.0) dailyData.push({message:"CriticaL",day:state?.dataFlood?.daily.time[i]});
-  if (ratio >= 2.5) dailyData.push({message:"High",day:state?.dataFlood?.daily.time[i]});;
-  if (ratio >= 1.5) dailyData.push({message:"Elivated",day:state?.dataFlood?.daily.time[i]});;
-  dailyData.push({message:"Normal",day:state?.dataFlood?.daily.time[i]});;
-
+  }else if (ratio >= 4.0) {
+        message = "Critical: Severe overflow is imminent or ongoing, presenting an extreme hazard far above normal flow volumes.";
+      } else if (ratio >= 2.5) {
+        message = "High: Discharge is significantly increased, creating a strong likelihood of localized flooding.";
+      } else if (ratio >= 1.5) {
+        message = "Elevated: Water volume is noticeably higher than usual, warranting routine monitoring.";
+      }
+dailyData.push({message:message,day:day})
 }
-console.log(state?.error)
+return dailyData
+},[state])
+console.log(dailyDataMemo)
+
   return(
     <>
     {/* Search Form Card */}
         <div className="bg-slate-800/60 backdrop-blur-md border border-slate-700/80 p-6 rounded-2xl shadow-xl">
-          <form action={formAction} className="flex flex-col sm:flex-row gap-3">
+          <form ref={formRef} action={formAction} className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
                 🔍
@@ -49,14 +60,13 @@ console.log(state?.error)
     </button>
           </form>
         </div>
-
-          <ul>
-           { dailyData?.map((data,index)=>{
-                return (<><li key={index}>{data.message}</li> <p key={data.day}>{data.day}</p></>)
-            })
-            
-            }
-          </ul>
+        {/* {state?.error&&<p>{state?.error}</p>}
+          {dailyData&&<>
+          <ul>{dailyData?.map((data,index)=>{
+            return <><li key={index}>{data.message}</li></>
+             })
+             }</ul></>
+            } */}
     </>
   )
 
