@@ -1,12 +1,28 @@
 "use client"
-import {useActionState,useEffect} from "react"
+import {useActionState,useEffect,useState} from "react"
 import FormHandler from "@/app/api/FormData"
 export default function Main(){
   const [state,formAction,isPending]=useActionState(FormHandler,undefined)
-  useEffect(()=>{
-state&&console.log(state)
-  },[state])
+  type dailyDataType={
+    message:string,
+    day:string
+  }
+    const dailyData:dailyDataType[]=[]
+for (let i = 0; i < 30; i++) {
+  const currentDischarge = state?.dataFlood?.daily.river_discharge[0];
+  const meanDischarge = state?.dataFlood?.daily.river_discharge_mean[0];
 
+  if (!meanDischarge || meanDischarge === 0) dailyData.push({message:"Normal",day:state?.dataFlood?.daily.time[i]});;
+
+  const ratio = currentDischarge / meanDischarge;
+
+  if (ratio >= 4.0) dailyData.push({message:"CriticaL",day:state?.dataFlood?.daily.time[i]});
+  if (ratio >= 2.5) dailyData.push({message:"High",day:state?.dataFlood?.daily.time[i]});;
+  if (ratio >= 1.5) dailyData.push({message:"Elivated",day:state?.dataFlood?.daily.time[i]});;
+  dailyData.push({message:"Normal",day:state?.dataFlood?.daily.time[i]});;
+
+}
+console.log(state?.error)
   return(
     <>
     {/* Search Form Card */}
@@ -33,12 +49,14 @@ state&&console.log(state)
     </button>
           </form>
         </div>
-          {
-            state?.dataFlood&&<p>{JSON.stringify(state.dataFlood)} error dataFlood</p>
-          } 
-          {
-            state?.dataFlood?.coord&&<p>{JSON.stringify(state.dataFlood)} normal  dataFlood</p>
-          } 
+
+          <ul>
+           { dailyData?.map((data,index)=>{
+                return (<><li key={index}>{data.message}</li> <p key={data.day}>{data.day}</p></>)
+            })
+            
+            }
+          </ul>
     </>
   )
 
