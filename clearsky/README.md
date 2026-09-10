@@ -1,4 +1,4 @@
-<!-- # SafeClouds Platform (Formerly Clear Skies)
+# SafeClouds Platform (Formerly Clear Skies)
 
 > **THIS PLATFORM IS UNDER MAINTENANCE AT THE MOMENT**
 
@@ -36,6 +36,5 @@ Run the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to view the platform locally, or visit the live deployment at [https://safeclouds.vercel.app](https://safeclouds.vercel.app). -->
+Open [http://localhost:3000](http://localhost:3000) with your browser to view the platform locally, or visit the live deployment at [https://safeclouds.vercel.app](https://safeclouds.vercel.app).
 
-**THIS PLATFORM IS CURRENTLY UNDER MAINTAINANCE**

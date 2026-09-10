@@ -1,50 +1,25 @@
 "use client"
-import {useActionState,useMemo,useRef} from "react"
+import { useActionState, useMemo, useRef } from "react"
 import FormHandler from "@/app/api/FormData"
 import Result from "@/app/components/Result"
 export default function Main(){
   const [state,formAction,isPending]=useActionState(FormHandler,undefined)
-  type dailyDataType={
-    message?:string,
-    day?:string,
-    error?:string,
-    icon?:string,
-    temp?:string,
-    desc?:string
-  }
- const formRef=useRef(null)
-  const dailyDataMemo=useMemo(()=>{
-    const dailyData:dailyDataType[]=[]
-    if (!state) return dailyData
-  if(state.error){
-    dailyData.push(state)
-    return dailyData
-  }
-for (let i = 0; i < 30; i++) {
-  const currentDischarge = state?.dataFlood?.daily.river_discharge[i];
-  const meanDischarge = state?.dataFlood?.daily.river_discharge_mean[i];
-  const day=state?.dataFlood?.daily.time[i]
-  const temp=state?.dataCity.main.temp
-  const icon=state?.dataCity.weather[0].icon
-  const desc=state?.dataCity.weather[0].description
-
-  const ratio = currentDischarge / meanDischarge;
-  let message="Normal: River flow remains close to its historical average with zero flood risk."
-  if (!meanDischarge || meanDischarge === 0) {
-   message="Normal: River flow remains close to its historical average with zero flood risk."
-
-  }else if (ratio >= 4.0) {
-        message = "Critical: Severe overflow is imminent or ongoing, presenting an extreme hazard far above normal flow volumes.";
-      } else if (ratio >= 2.5) {
-        message = "High: Discharge is significantly increased, creating a strong likelihood of localized flooding.";
-      } else if (ratio >= 1.5) {
-        message = "Elevated: Water volume is noticeably higher than usual, warranting routine monitoring.";
-      }
-dailyData.push({message:message,day:day,temp:temp,icon:icon,desc:desc})
-}
-return dailyData
-},[state])
-console.log(state)
+  type DailyData = { day: string; discharge?: number; average?: number; ratio?: number; level: string; message: string }
+  const formRef = useRef<HTMLFormElement>(null)
+  const dailyDataMemo = useMemo<DailyData[]>(() => {
+    if (!state?.dataFlood?.daily) return []
+    const daily = state.dataFlood.daily
+    return (daily.time ?? []).slice(0, 30).map((day: string, index: number) => {
+      const discharge = Number(daily.river_discharge?.[index])
+      const average = Number(daily.river_discharge_mean?.[index])
+      const ratio = average > 0 ? discharge / average : 0
+      if (ratio >= 4) return { day, discharge, average, ratio, level: "Critical", message: "Severe overflow is possible or ongoing." }
+      if (ratio >= 2.5) return { day, discharge, average, ratio, level: "High", message: "Significantly increased flow; localized flooding is possible." }
+      if (ratio >= 1.5) return { day, discharge, average, ratio, level: "Elevated", message: "Higher-than-usual water volume; continue monitoring." }
+      return { day, discharge, average, ratio, level: "Normal", message: "River flow is close to its historical average." }
+    })
+  }, [state])
+  const weather = state?.dataCity ? { city: state.dataCity.name, country: state.dataCity.sys?.country, temp: Math.round(state.dataCity.main.temp), feels: Math.round(state.dataCity.main.feels_like), description: state.dataCity.weather?.[0]?.description ?? "Unknown", icon: state.dataCity.weather?.[0]?.icon } : undefined
   return(
     <>
     {/* Search Form Card */}
@@ -67,11 +42,13 @@ console.log(state)
          <button disabled={isPending} type="submit" 
       className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-xl transition-all text-sm shadow-lg shadow-blue-600/20 focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
-      {isPending?"Loading":"Submit"}
+      {isPending?"Loading…":"Check conditions"}
     </button>
           </form>
         </div>
- <Result data={dailyDataMemo}/>
+ {state?.error && <div className="alert error" role="alert">{state.error}</div>}
+ {weather && <section className="weather-card" aria-label="Today's weather"><div><p className="eyebrow">Today’s weather</p><h2>{weather.city}, {weather.country}</h2><p className="weather-description">{weather.description}</p></div><div className="weather-reading">{weather.icon && <img src={`https://openweathermap.org/img/wn/${weather.icon}@2x.png`} alt="" />}<strong>{weather.temp}°C</strong><span>Feels like {weather.feels}°C</span></div></section>}
+ {dailyDataMemo.length > 0 && <Result data={dailyDataMemo}/>} 
     </>
   )
 

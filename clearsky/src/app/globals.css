@@ -1,1 +1,26 @@
 @import "tailwindcss";
+
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: #07111f; }
+.weather-card, .forecast-section { margin-top: 1.5rem; }
+.weather-card { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem; border: 1px solid #24415f; border-radius: 1rem; background: linear-gradient(135deg, #102942, #0d1b2d); }
+.weather-card h2, .section-heading h2 { margin: .2rem 0; color: white; font-size: 1.25rem; font-weight: 700; }
+.eyebrow { margin: 0; color: #67b7ff; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.weather-description, .muted { color: #91a7bd; text-transform: capitalize; }
+.weather-reading { display: grid; grid-template-columns: auto auto; align-items: center; }
+.weather-reading img { width: 4rem; height: 4rem; }
+.weather-reading strong { color: white; font-size: 2rem; }
+.weather-reading span { grid-column: 2; color: #91a7bd; font-size: .75rem; }
+.section-heading { display: flex; align-items: end; justify-content: space-between; margin-bottom: .75rem; }
+.muted { font-size: .75rem; }
+.forecast-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem; }
+.forecast-card { padding: 1rem; border: 1px solid #29405a; border-left: 3px solid #48a868; border-radius: .85rem; background: #0d1d30; }
+.forecast-card.elevated { border-left-color: #f0b429; } .forecast-card.high { border-left-color: #f07b29; } .forecast-card.critical { border-left-color: #ef5350; }
+.forecast-top, .flow-values { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.forecast-top strong { color: #e5edf5; font-size: .9rem; }
+.risk-badge { color: #80dfa0; font-size: .7rem; font-weight: 700; text-transform: uppercase; } .elevated .risk-badge { color: #f0c55c; } .high .risk-badge { color: #ff9c5a; } .critical .risk-badge { color: #ff7773; }
+.forecast-card p { min-height: 2.5rem; margin: .8rem 0; color: #a9bbcc; font-size: .8rem; line-height: 1.4; }
+.flow-values { border-top: 1px solid #263a50; padding-top: .7rem; color: #7890a8; font-size: .7rem; } .flow-values b { color: #dce8f2; }
+.alert.error { margin-top: 1rem; padding: .9rem 1rem; border: 1px solid #8f3d46; border-radius: .75rem; background: #3a1821; color: #ffabb1; }
+@media (max-width: 520px) { .weather-card { align-items: flex-start; flex-direction: column; } .section-heading { align-items: flex-start; flex-direction: column; gap: .3rem; } }
